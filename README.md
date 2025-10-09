@@ -1,73 +1,46 @@
-# React + TypeScript + Vite
+# 제자광성교회 청년부 출석체크 / 영성체크
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> React + TypeScript + TailwindCSS 기반 웹 애플리케이션
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 프로젝트 개요
 
-## React Compiler
+제자광성교회 청년부의 **출석체크**와 **영성체크(기도, 말씀, 큐티 등)**를 관리하기 위한 웹 애플리케이션입니다.
+사용자는 로그인 후 출석 기록과 영성 활동을 체크하고, 간편하게 관리할 수 있습니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 사용 기술
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend:** React, TypeScript
+- **UI / Styling:** TailwindCSS
+- **번들러 / 개발 서버:** Vite
+- **버전 관리:** Git
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 개발 일지
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **개발 시작일:** 2025년 10월 9일
+- 주요 기능 개발:
+  - 출석 체크 페이지
+  - 기도 / 말씀 / 큐티 체크 페이지
+  - 사이드 네비게이션
+  - Tailwind를 활용한 UI 구현
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 설치 및 실행
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# 프로젝트 클론
+git clone <repository-url>
+cd <project-folder>
+
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
 ```
