@@ -1,6 +1,4 @@
-import { Routes, Route } from "react-router-dom";
-import { Attendance } from "../pages/Attendance";
-import { MainPage } from "../pages/MainPage";
+import { Outlet } from "react-router-dom";
 import { HeaderComponents } from "./HeaderComponent";
 import { SideNavComponent } from "./SideNavComponent";
 
@@ -21,10 +19,7 @@ export function Layout() {
 
       {/* 메인 콘텐츠 - 컬럼 2, 로우 2 (헤더 아래) */}
       <div className="col-start-2 col-end-3 row-start-2 row-end-3 bg-gray-50 overflow-auto">
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/attendance" element={<Attendance />} />
-        </Routes>
+        <Outlet />
       </div>
     </div>
   );
