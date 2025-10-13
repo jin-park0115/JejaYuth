@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, User, Lock } from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // Types
 interface LoginFormData {
@@ -13,10 +15,45 @@ export function LoginForm() {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    console.log("로그인:", formData);
-    alert("로그인 성공!");
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+        {
+          email: formData.username,
+          password: formData.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_ANON_KEY,
+          },
+        }
+      );
+      const data = response.data;
+      console.log("로그인완", data);
+
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("refresh_token", data.refresh_token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+    } catch (error: any) {
+      console.error("로그인 실패", error.response?.data || error.message);
+      alert(
+        "로그인 실패: " +
+          (error.response?.data?.error_description || error.message)
+      );
+    } finally {
+      navigate("/home");
+      setLoading(false);
+    }
   };
 
   return (
