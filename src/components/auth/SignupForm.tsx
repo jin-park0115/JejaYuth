@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Calendar, User, Lock, EyeOff, Eye } from "lucide-react";
+import { Mail, User, Lock, EyeOff, Eye } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,9 @@ export default function SignupForm() {
     if (!validateEmail(formData.email))
       return alert("이메일 형식이 올바르지 않습니다.");
     if (!validatePassword(formData.password))
-      return alert("비밀번호는 8자 이상, 영문과 숫자를 포함해야 합니다.");
+      return alert(
+        "비밀번호는 8자 이상, 영문과 숫자 특수문자 기호를 포함해야 합니다."
+      );
     if (formData.password !== formData.confirmPassword)
       return alert("비밀번호가 일치하지 않습니다.");
 

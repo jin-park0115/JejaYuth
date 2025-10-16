@@ -15,15 +15,12 @@ export function LoginForm() {
     username: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
   const handleSubmit = async () => {
-    setLoading(true);
-
     try {
       const response = await axios.post(
         `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
@@ -44,15 +41,30 @@ export function LoginForm() {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("refresh_token", data.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
-    } catch (error: any) {
-      console.error("로그인 실패", error.response?.data || error.message);
-      alert(
-        "로그인 실패: " +
-          (error.response?.data?.error_description || error.message)
+
+      const userId = data.user.id;
+      const userResponse = await axios.get(
+        `${SUPABASE_URL}/rest/v1/users?id=eq.${userId}`,
+        {
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
       );
-    } finally {
+      const userProfile = userResponse.data[0];
+      console.log("유저 프로필", userProfile);
+
+      if (userProfile) {
+        localStorage.setItem("profile", JSON.stringify(userProfile));
+      }
+
+      alert("로그인 성공");
       navigate("/home");
-      setLoading(false);
+    } catch (error: any) {
+      const errData = error.response?.data;
+      alert("로그인 실패: " + (errData?.error_description || error.message));
+      console.error("로그인 실패", errData || error.message);
     }
   };
 
