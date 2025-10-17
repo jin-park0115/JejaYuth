@@ -2,30 +2,30 @@ import { useState } from "react";
 import { Eye, EyeOff, User, Lock } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "../../utils/supabaseConfig";
+import { useAuthStore } from "../../store/useAuthStore";
 
 // Types
 interface LoginFormData {
-  username: string;
+  email: string;
   password: string;
 }
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<LoginFormData>({
-    username: "",
+    email: "",
     password: "",
   });
   const navigate = useNavigate();
-
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
         `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
         {
-          email: formData.username,
+          email: formData.email,
           password: formData.password,
         },
         {
@@ -36,11 +36,6 @@ export function LoginForm() {
         }
       );
       const data = response.data;
-      console.log("로그인완", data);
-
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
-      localStorage.setItem("user", JSON.stringify(data.user));
 
       const userId = data.user.id;
       const userResponse = await axios.get(
@@ -52,15 +47,17 @@ export function LoginForm() {
           },
         }
       );
-      const userProfile = userResponse.data[0];
-      console.log("유저 프로필", userProfile);
+      const profile = userResponse.data[0];
 
-      if (userProfile) {
-        localStorage.setItem("profile", JSON.stringify(userProfile));
-      }
+      setAuth({
+        user: data.user,
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
+        profile,
+      });
 
       alert("로그인 성공");
-      navigate("/home");
+      navigate("/home/dashboard");
     } catch (error: any) {
       const errData = error.response?.data;
       alert("로그인 실패: " + (errData?.error_description || error.message));
@@ -80,10 +77,10 @@ export function LoginForm() {
           <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50 w-5 h-5" />
           <input
             type="text"
-            placeholder="아이디"
-            value={formData.username}
+            placeholder="이메일"
+            value={formData.email}
             onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
+              setFormData({ ...formData, email: e.target.value })
             }
             className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
           />

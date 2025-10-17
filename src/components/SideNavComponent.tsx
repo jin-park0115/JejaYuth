@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/covenentLogo.jpg";
 
 const menuItems = [
@@ -12,12 +12,21 @@ const menuItems = [
 
 export function SideNavComponent() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    confirm("로그아웃 하시겠습니까?");
+    localStorage.removeItem("user");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("profile");
+    localStorage.removeItem("access_token");
+    navigate("/");
+  };
 
   return (
     <div className="h-full bg-white">
       <div className="flex flex-col gap-[50px] p-[10px]">
         <Link
-          to="/home"
+          to="/home/dashboard"
           className="hover:opacity-80 transition-opacity w-[100px]"
         >
           <img src={logo} alt="커버넌트 로고" />
@@ -36,6 +45,11 @@ export function SideNavComponent() {
               {item.name}
             </Link>
           ))}
+        </div>
+        <div className="text-[14px] pl-[10px]">
+          <button onClick={handleLogout} className="cursor-pointer">
+            로그아웃
+          </button>
         </div>
       </div>
     </div>

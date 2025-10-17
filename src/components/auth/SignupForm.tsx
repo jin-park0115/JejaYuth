@@ -141,7 +141,7 @@ export default function SignupForm() {
             className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition-all appearance-none cursor-pointer"
           >
             <option value="" className="bg-purple-600">
-              직위 선택
+              직분 선택
             </option>
             <option value="목사님" className="bg-purple-600">
               목사님
@@ -162,7 +162,7 @@ export default function SignupForm() {
           <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/50 w-5 h-5" />
           <input
             type="text"
-            placeholder="아이디"
+            placeholder="email"
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
