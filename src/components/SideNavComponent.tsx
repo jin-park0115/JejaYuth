@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/covenentLogo.jpg";
+import { useAuthStore } from "../store/useAuthStore";
 
 const menuItems = [
   { name: "대시보드", path: "/home/dashboard" },
@@ -13,13 +14,13 @@ const menuItems = [
 export function SideNavComponent() {
   const location = useLocation();
   const navigate = useNavigate();
+  const logoutAuth = useAuthStore((state) => state.clearAuth);
+
   const handleLogout = () => {
-    confirm("로그아웃 하시겠습니까?");
-    localStorage.removeItem("user");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("profile");
-    localStorage.removeItem("access_token");
-    navigate("/");
+    if (confirm("로그아웃 하시겠습니까?")) {
+      logoutAuth();
+      navigate("/");
+    }
   };
 
   return (
