@@ -6,7 +6,7 @@ const menuItems = [
   { name: "대시보드", path: "/home/dashboard" },
   { name: "출석체크", path: "/home/attendance" },
   { name: "기도체크", path: "/home/prayer" },
-  { name: "말씀체크", path: "/home/word" },
+  { name: "말씀체크", path: "/home/bible" },
   { name: "큐티체크", path: "/home/qt" },
   { name: "광고", path: "/home/ad" },
 ];

@@ -30,8 +30,24 @@ export function Attendance() {
     setIsSubmitting(true);
 
     try {
+      const { data: existing } = await axios.get(
+        `${SUPABASE_URL}/rest/v1/sunday_check?user_id=eq.${auth.user.id}&date=eq.${currentSunday}`,
+        {
+          headers: {
+            apiKey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      );
+
+      if (existing.length > 0) {
+        alert("이미 출석 체크를 완료했습니다!");
+        setIsSubmitting(false);
+        return;
+      }
+
       await axios.post(
-        `${SUPABASE_URL}/rest/v1/sunday_checks`,
+        `${SUPABASE_URL}/rest/v1/sunday_check`,
         {
           user_id: auth.user.id,
           date: currentSunday,
@@ -40,8 +56,8 @@ export function Attendance() {
         {
           headers: {
             apiKey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${auth.accessToken}`,
             "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.accessToken}`,
             Prefer: "resolution=merge-duplicates",
           },
         }
