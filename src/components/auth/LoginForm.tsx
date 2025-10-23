@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Eye, EyeOff, User, Lock } from "lucide-react";
+import React, { useState } from "react";
+import { Eye, EyeOff, User, Lock, LogIn } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "../../utils/supabaseConfig";
 import { useAuthStore } from "../../store/useAuthStore";
+import toast from "react-hot-toast";
 
 // Types
 interface LoginFormData {
@@ -20,7 +21,8 @@ export function LoginForm() {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
         `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
@@ -56,17 +58,27 @@ export function LoginForm() {
         profile,
       });
 
-      alert("로그인 성공");
+      toast.success("로그인 성공!", {
+        duration: 2000,
+        icon: <LogIn className="w-5 h-5" />,
+        position: "top-center",
+      });
       navigate("/home/dashboard");
     } catch (error: any) {
       const errData = error.response?.data;
-      alert("로그인 실패: " + (errData?.error_description || error.message));
+      toast.error(
+        `로그인 실패: ${errData?.error_description || error.message}`,
+        {
+          duration: 3000,
+          position: "bottom-center",
+        }
+      );
       console.error("로그인 실패", errData || error.message);
     }
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <form onSubmit={handleSubmit} className="p-8 space-y-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-white mb-2">환영합니다!</h2>
         <p className="text-white/70">로그인하여 계속하세요</p>
@@ -112,7 +124,7 @@ export function LoginForm() {
       </div>
 
       <button
-        onClick={handleSubmit}
+        type="submit"
         className="w-full py-4 bg-white text-purple-600 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
       >
         로그인
@@ -126,6 +138,6 @@ export function LoginForm() {
           비밀번호를 잊으셨나요?
         </button>
       </div>
-    </div>
+    </form>
   );
 }

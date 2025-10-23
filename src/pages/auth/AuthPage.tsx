@@ -40,7 +40,11 @@ export default function AuthPages() {
             </button>
           </div>
 
-          {currentPage === "login" ? <LoginForm /> : <SignupForm />}
+          {currentPage === "login" ? (
+            <LoginForm />
+          ) : (
+            <SignupForm switchToLogin={() => setCurrentPage("login")} />
+          )}
         </div>
 
         <div className="mt-8 text-center text-white/60 text-sm">

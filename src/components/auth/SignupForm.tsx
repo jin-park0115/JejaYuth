@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, User, Lock, EyeOff, Eye } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface SignupFormData {
   name: string;
@@ -13,8 +13,11 @@ interface SignupFormData {
   confirmPassword: string;
 }
 
-export default function SignupForm() {
-  const navigate = useNavigate();
+interface SignupFormProps {
+  switchToLogin: () => void;
+}
+
+export default function SignupForm({ switchToLogin }: SignupFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState<SignupFormData>({
@@ -51,7 +54,9 @@ export default function SignupForm() {
 
     if (signUpError) {
       if (signUpError.message.includes("already registered")) {
-        alert("이미 가입된 이메일입니다.");
+        toast.error("이미 가입된 이메일입니다.", {
+          duration: 2000,
+        });
       } else {
         alert(`회원가입 실패: ${signUpError.message}`);
       }
@@ -78,8 +83,10 @@ export default function SignupForm() {
       return;
     }
 
-    alert("회원가입 성공! 🎉");
-    navigate("/home");
+    toast.success("회원가입 성공! 🎉 로그인 해주세요.", { duration: 2000 });
+    setTimeout(() => {
+      switchToLogin();
+    }, 2000);
   };
 
   return (

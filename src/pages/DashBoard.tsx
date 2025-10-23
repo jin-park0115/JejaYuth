@@ -3,6 +3,7 @@ import ActivityCard from "../components/check/ActivityCard";
 import MotivationMessage from "../components/check/MotivationMessage";
 import StatCard from "../components/check/StatCard";
 import WeeklyCalendar from "../components/check/WeeklyCalendar";
+import { useAuthStore } from "../store/useAuthStore";
 
 interface WeeklyGoal {
   count: number;
@@ -23,6 +24,7 @@ interface DayActivity {
 }
 
 export function DashBoard() {
+  const profile = useAuthStore((state) => state.profile);
   //mockup data(실제로는 DB에서 가져올 예정)
   const [weeklyData] = useState<WeeklyData>({
     prayer: { count: 5, goal: 7 },
@@ -84,7 +86,7 @@ export function DashBoard() {
         {/* 헤더 */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            지난 주 활동 대시보드
+            {profile?.name}님 지난 주 활동 대시보드
           </h1>
           <p className="text-gray-600">한 주간의 신앙생활을 되돌아봅시다</p>
         </div>

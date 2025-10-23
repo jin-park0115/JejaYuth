@@ -1,3 +1,5 @@
+import { LogOut } from "lucide-react";
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/covenentLogo.jpg";
 import { useAuthStore } from "../store/useAuthStore";
@@ -8,7 +10,7 @@ const menuItems = [
   { name: "기도체크", path: "/home/prayer" },
   { name: "말씀체크", path: "/home/bible" },
   { name: "큐티체크", path: "/home/qt" },
-  { name: "광고", path: "/home/ad" },
+  { name: "광고", path: "/home/advertising" },
 ];
 
 export function SideNavComponent() {
@@ -20,6 +22,10 @@ export function SideNavComponent() {
     if (confirm("로그아웃 하시겠습니까?")) {
       logoutAuth();
       navigate("/");
+      toast.error("로그아웃 되었습니다.", {
+        duration: 2000,
+        icon: <LogOut className="w-5 h-5" />,
+      });
     }
   };
 
