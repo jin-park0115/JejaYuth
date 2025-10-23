@@ -84,6 +84,10 @@
 ## 설치 및 실행
 
 ```bash
+# 서버 IP
+175.45.200.104
+10/31일에 내립니다.
+
 # 프로젝트 클론
 git clone <repository-url>
 cd <project-folder>
