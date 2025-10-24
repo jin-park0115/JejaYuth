@@ -158,7 +158,7 @@ export default function WeeklyCheckTracker({
           </p>
         </div>
 
-        <div className="flex justify-center gap-1 xs:gap-1.5 sm:gap-3 mb-4 xs:mb-5 sm:mb-8">
+        <div className="flex justify-center gap-2 xs:gap-3 min-[425px]:gap-4 sm:gap-3 mb-4 xs:mb-5 sm:mb-8">
           {weekDays.map((day, index) => (
             <button
               key={index}
