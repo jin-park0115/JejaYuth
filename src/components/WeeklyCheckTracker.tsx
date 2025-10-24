@@ -146,26 +146,28 @@ export default function WeeklyCheckTracker({
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br ${color.bgFrom} ${color.bgTo} flex items-center justify-center p-4 sm:p-6 md:p-8`}
+      className={`min-h-screen bg-gradient-to-br ${color.bgFrom} ${color.bgTo} flex items-center justify-center p-2 xs:p-3 sm:p-6 md:p-8`}
     >
-      <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md">
-        <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl p-3 xs:p-4 sm:p-6 md:p-8 w-full max-w-[95vw] xs:max-w-sm sm:max-w-md">
+        <div className="text-center mb-4 xs:mb-5 sm:mb-8">
+          <h1 className="text-base xs:text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-1 sm:mb-2">
             {title}
           </h1>
-          <p className="text-xs sm:text-sm text-gray-500">{description}</p>
+          <p className="text-[10px] xs:text-xs sm:text-sm text-gray-500">
+            {description}
+          </p>
         </div>
 
-        <div className="flex justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+        <div className="flex justify-center gap-1 xs:gap-1.5 sm:gap-3 mb-4 xs:mb-5 sm:mb-8">
           {weekDays.map((day, index) => (
             <button
               key={index}
               onClick={() => toggleDay(index)}
-              className="relative group"
+              className="relative group flex-shrink-0"
               disabled={isSubmitting || !day.date}
             >
               <div
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
+                className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
                   day.checked
                     ? `bg-${color.primary}-500 shadow-lg scale-110`
                     : "bg-gray-200 hover:bg-gray-300"
@@ -177,21 +179,21 @@ export default function WeeklyCheckTracker({
               >
                 {day.checked ? (
                   <Check
-                    className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                    className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-white"
                     strokeWidth={3}
                   />
                 ) : (
                   <X
-                    className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400"
+                    className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 text-gray-400"
                     strokeWidth={2}
                   />
                 )}
               </div>
-              <span className="text-xs text-gray-600 mt-1 block">
+              <span className="text-[9px] xs:text-[10px] sm:text-xs text-gray-600 mt-0.5 sm:mt-1 block">
                 {day.day}
               </span>
               {day.date && (
-                <span className="text-xs text-gray-400 block">
+                <span className="text-[8px] xs:text-[9px] sm:text-xs text-gray-400 block">
                   {day.date.getDate()}
                 </span>
               )}
@@ -200,21 +202,21 @@ export default function WeeklyCheckTracker({
         </div>
 
         <div
-          className={`bg-${color.primary}-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6`}
+          className={`bg-${color.primary}-50 rounded-lg p-2.5 xs:p-3 sm:p-4 mb-3 xs:mb-4 sm:mb-6`}
         >
           <div className="flex justify-between items-center">
-            <span className="text-sm sm:text-base text-gray-700 font-medium">
+            <span className="text-xs xs:text-sm sm:text-base text-gray-700 font-medium">
               이번 주 체크 횟수
             </span>
             <span
-              className={`text-xl sm:text-2xl font-bold text-${color.primary}-600`}
+              className={`text-lg xs:text-xl sm:text-2xl font-bold text-${color.primary}-600`}
             >
               {weekDays.filter((d) => d.checked).length} / 7
             </span>
           </div>
-          <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+          <div className="mt-1.5 sm:mt-2 w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
             <div
-              className={`bg-${color.primary}-500 h-2 rounded-full transition-all duration-300`}
+              className={`bg-${color.primary}-500 h-1.5 sm:h-2 rounded-full transition-all duration-300`}
               style={{
                 width: `${
                   (weekDays.filter((d) => d.checked).length / 7) * 100
@@ -224,7 +226,7 @@ export default function WeeklyCheckTracker({
           </div>
         </div>
 
-        <div className="mt-4 sm:mt-6 text-xs text-gray-400 text-center space-y-1">
+        <div className="mt-3 xs:mt-4 sm:mt-6 text-[9px] xs:text-[10px] sm:text-xs text-gray-400 text-center space-y-0.5 sm:space-y-1">
           <p>{tip}</p>
           <p className="text-gray-300">클릭하면 즉시 저장됩니다</p>
         </div>

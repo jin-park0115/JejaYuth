@@ -84,18 +84,20 @@ export function DashBoard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6">
       <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
             {profile?.name}님 지난 주 활동 대시보드
           </h1>
-          <p className="text-gray-600">한 주간의 신앙생활을 되돌아봅시다</p>
+          <p className="text-sm sm:text-base text-gray-600">
+            한 주간의 신앙생활을 되돌아봅시다
+          </p>
         </div>
 
         {/* 격려 메시지 */}
         <MotivationMessage percentage={overallPercentage} />
 
         {/* 활동 카드 그리드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6 md:mb-8">
           {activities.map((activity, idx) => (
             <ActivityCard
               key={idx}
@@ -112,7 +114,7 @@ export function DashBoard() {
         <WeeklyCalendar activityLog={activityLog} />
 
         {/* 통계 요약 */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <StatCard
             value={totalActivities}
             label="총 활동 횟수"

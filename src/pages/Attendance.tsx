@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Check } from "lucide-react";
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "../utils/supabaseConfig";
@@ -74,36 +75,64 @@ export function Attendance() {
 
   return (
     <div>
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">출석 체크</h1>
-            <p className="text-gray-500 text-lg">{currentSunday}</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 max-w-md w-full">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+              출석 체크
+            </h1>
+            <p className="text-gray-500 text-base sm:text-lg">
+              {currentSunday}
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
             <button
               disabled={!isCheckAvailable() || isSubmitting}
               onClick={() => setSelected("불참")}
-              className={`border-2 rounded-lg p-8 transition-colors cursor-pointer ${
+              className={`relative border-2 rounded-lg p-6 sm:p-8 transition-all duration-200 ${
                 selected === "불참"
-                  ? "border-red-500 bg-red-50"
-                  : "border-gray-300 hover:border-red-400"
+                  ? "border-red-500 bg-red-500 text-white shadow-lg scale-105"
+                  : "border-gray-300 hover:border-red-400 bg-white text-gray-800"
+              } ${
+                !isCheckAvailable() || isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
               }`}
             >
-              <span className="text-xl font-semibold text-gray-800">불참</span>
+              {selected === "불참" && (
+                <div className="absolute top-2 right-2">
+                  <Check
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                    strokeWidth={3}
+                  />
+                </div>
+              )}
+              <span className="text-lg sm:text-xl font-semibold">불참</span>
             </button>
 
             <button
               disabled={!isCheckAvailable() || isSubmitting}
               onClick={() => setSelected("참석")}
-              className={`border-2 rounded-lg p-8 transition-colors cursor-pointer ${
+              className={`relative border-2 rounded-lg p-6 sm:p-8 transition-all duration-200 ${
                 selected === "참석"
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-300 hover:border-blue-400"
+                  ? "border-blue-500 bg-blue-500 text-white shadow-lg scale-105"
+                  : "border-gray-300 hover:border-blue-400 bg-white text-gray-800"
+              } ${
+                !isCheckAvailable() || isSubmitting
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
               }`}
             >
-              <span className="text-xl font-semibold text-gray-800">참석</span>
+              {selected === "참석" && (
+                <div className="absolute top-2 right-2">
+                  <Check
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                    strokeWidth={3}
+                  />
+                </div>
+              )}
+              <span className="text-lg sm:text-xl font-semibold">참석</span>
             </button>
           </div>
 
@@ -118,6 +147,12 @@ export function Attendance() {
           >
             {isSubmitting ? "제출 중..." : "제출"}
           </button>
+
+          {!isCheckAvailable() && (
+            <p className="text-center text-sm text-red-500 mt-4">
+              출석 체크는 주일과 월요일에만 가능합니다
+            </p>
+          )}
         </div>
       </div>
     </div>

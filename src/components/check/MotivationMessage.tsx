@@ -36,7 +36,7 @@ export default function MotivationMessage({
       <div className="flex items-center gap-3">
         <Award className="w-8 h-8 text-yellow-500" />
         <div>
-          <p className={`text-lg font-medium ${message.color}`}>
+          <p className={`lg:text-lg font-medium ${message.color}`}>
             {message.text}
           </p>
         </div>
