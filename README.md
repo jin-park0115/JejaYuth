@@ -118,4 +118,8 @@ npm run dev
 test@gmail.com
 Wls6819@!~
 하고 지금은 대시보드를 눌러야 대시보드 화면이 나옵니다.
+
+# 시연영상 + DataBase
+https://blog.naver.com/jeanpark0115/224055565034
+네이버 블로그에 적어놨습니다.
 ```
