@@ -189,11 +189,11 @@ export default function WeeklyCheckTracker({
                   />
                 )}
               </div>
-              <span className="text-[9px] xs:text-[10px] sm:text-xs text-gray-600 mt-0.5 sm:mt-1 block">
+              <span className="text-[12px] sm:text-xs text-gray-600 mt-0.5 sm:mt-1 block">
                 {day.day}
               </span>
               {day.date && (
-                <span className="text-[8px] xs:text-[9px] sm:text-xs text-gray-400 block">
+                <span className="text-[12px] sm:text-xs text-gray-400 block">
                   {day.date.getDate()}
                 </span>
               )}
