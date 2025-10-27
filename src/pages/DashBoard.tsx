@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActivityCard from "../components/check/ActivityCard";
 import MotivationMessage from "../components/check/MotivationMessage";
 import StatCard from "../components/check/StatCard";
 import WeeklyCalendar from "../components/check/WeeklyCalendar";
 import { useAuthStore } from "../store/useAuthStore";
+import {
+  fetchLastWeekActivities,
+  fetchLastWeekAttendance,
+  transformToActivityLog,
+  transformToWeeklyData,
+} from "../utils/dashboardData";
 
 interface WeeklyGoal {
   count: number;
@@ -24,25 +30,46 @@ interface DayActivity {
 }
 
 export function DashBoard() {
-  const profile = useAuthStore((state) => state.profile);
-  //mockup data(실제로는 DB에서 가져올 예정)
-  const [weeklyData] = useState<WeeklyData>({
-    prayer: { count: 5, goal: 7 },
-    scripture: { count: 6, goal: 7 },
-    qt: { count: 4, goal: 7 },
-    attendance: { count: 1, goal: 1 },
+  const auth = useAuthStore((state) => state);
+  const [weeklyData, setWeeklyData] = useState<WeeklyData>({
+    prayer: { count: 0, goal: 7 },
+    scripture: { count: 0, goal: 7 },
+    qt: { count: 0, goal: 7 },
+    attendance: { count: 0, goal: 1 },
   });
 
-  //얘도 mockup data
-  const [activityLog] = useState<DayActivity[]>([
-    { day: 0, prayer: true, scripture: true, qt: true },
-    { day: 1, prayer: true, scripture: true, qt: false },
-    { day: 2, prayer: true, scripture: true, qt: true },
-    { day: 3, prayer: false, scripture: true, qt: false },
-    { day: 4, prayer: true, scripture: true, qt: true },
-    { day: 5, prayer: true, scripture: false, qt: true },
-    { day: 6, prayer: false, scripture: false, qt: false },
-  ]);
+  const [activityLog, setActivityLog] = useState<DayActivity[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadDashboardData() {
+      if (!auth.user.id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const [activities, attendance] = await Promise.all([
+          fetchLastWeekActivities(auth.user.id, auth.accessToken!),
+          fetchLastWeekAttendance(auth.user.id, auth.accessToken!),
+        ]);
+        const weekly = transformToWeeklyData(activities, attendance);
+        const daily = transformToActivityLog(activities);
+
+        setWeeklyData(weekly);
+        setActivityLog(daily);
+      } catch (err) {
+        console.error("faild to load dashboard:", err);
+        setError("데이터를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadDashboardData();
+  }, [auth.user.id]);
 
   const totalActivities =
     weeklyData.prayer.count + weeklyData.scripture.count + weeklyData.qt.count;
@@ -80,13 +107,40 @@ export function DashBoard() {
     },
   ];
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
+          <p className="text-gray-600">데이터를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          >
+            다시 시도
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6">
       <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
         <div className="mb-4 sm:mb-6 md:mb-8">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
-            {profile?.name}님 지난 주 활동 대시보드
+            {auth.profile.name}님 지난 주 활동 대시보드
           </h1>
           <p className="text-sm sm:text-base text-gray-600">
             한 주간의 신앙생활을 되돌아봅시다
