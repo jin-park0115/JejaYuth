@@ -11,20 +11,69 @@ import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/covenentLogo.jpg";
 import { useAuthStore } from "../store/useAuthStore";
+import { NavItem } from "../types/auth";
 
-const menuItems = [
-  { name: "대시보드", path: "/home/dashboard", icon: Home },
-  { name: "출석체크", path: "/home/attendance", icon: CheckSquare },
-  { name: "기도체크", path: "/home/prayer", icon: MessageCircle },
-  { name: "말씀체크", path: "/home/bible", icon: Book },
-  { name: "큐티체크", path: "/home/qt", icon: BookOpen },
-  { name: "광고", path: "/home/advertising", icon: Megaphone },
+const menuItems: NavItem[] = [
+  {
+    name: "대시보드",
+    path: "/home/dashboard",
+    icon: Home,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
+  {
+    name: "출석체크",
+    path: "/home/attendance",
+    icon: CheckSquare,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
+  {
+    name: "기도체크",
+    path: "/home/prayer",
+    icon: MessageCircle,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
+  {
+    name: "말씀체크",
+    path: "/home/bible",
+    icon: Book,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
+  {
+    name: "큐티체크",
+    path: "/home/qt",
+    icon: BookOpen,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
+  {
+    name: "셀원 명단",
+    path: "/home/cellmember",
+    icon: BookOpen,
+    requiredRoles: ["목사님", "리더", "새가족 담당"],
+  },
+  {
+    name: "청년 명단",
+    path: "/home/member",
+    icon: BookOpen,
+    requiredRoles: ["목사님"],
+  },
+  {
+    name: "광고",
+    path: "/home/advertising",
+    icon: Megaphone,
+    requiredRoles: ["목사님", "리더", "셀원", "새가족 담당"],
+  },
 ];
 
 export function SideNavComponent() {
   const location = useLocation();
   const navigate = useNavigate();
   const logoutAuth = useAuthStore((state) => state.clearAuth);
+
+  const userRole = useAuthStore((state) => state.profile?.role);
+
+  const visibleMenuItems = menuItems.filter((item) =>
+    item.requiredRoles.includes(userRole)
+  );
 
   const handleLogout = () => {
     if (confirm("로그아웃 하시겠습니까?")) {
@@ -49,7 +98,7 @@ export function SideNavComponent() {
             <img src={logo} alt="커버넌트 로고" />
           </Link>
           <div className="text-xl flex flex-col gap-[4px]">
-            {menuItems.map((item) => (
+            {visibleMenuItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}

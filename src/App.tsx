@@ -4,6 +4,7 @@ import Advertising from "./pages/Advertising";
 import { Attendance } from "./pages/Attendance";
 import AuthPages from "./pages/auth/AuthPage";
 import BiblePage from "./pages/BiblePage";
+import CellMemberPage from "./pages/CellMemberPage";
 import { DashBoard } from "./pages/DashBoard";
 import PrayerPage from "./pages/PrayerPage";
 import QtPage from "./pages/QtPage";
@@ -18,6 +19,7 @@ function App() {
         <Route path="bible" element={<BiblePage />} />
         <Route path="qt" element={<QtPage />} />
         <Route path="advertising" element={<Advertising />} />
+        <Route path="cellmember" element={<CellMemberPage />} />
       </Route>
       <Route path="/" element={<AuthPages />} />
     </Routes>

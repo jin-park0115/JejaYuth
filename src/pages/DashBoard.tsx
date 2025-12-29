@@ -44,7 +44,7 @@ export function DashBoard() {
 
   useEffect(() => {
     async function loadDashboardData() {
-      if (!auth.user.id) {
+      if (!auth.user?.id) {
         setLoading(false);
         return;
       }
@@ -69,7 +69,7 @@ export function DashBoard() {
       }
     }
     loadDashboardData();
-  }, [auth.user.id]);
+  }, [auth.user?.id]);
 
   const totalActivities =
     weeklyData.prayer.count + weeklyData.scripture.count + weeklyData.qt.count;
@@ -139,9 +139,12 @@ export function DashBoard() {
       <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
         <div className="mb-4 sm:mb-6 md:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
-            {auth.profile.name}님 지난 주 활동 대시보드
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
+              {auth.profile.name}님 지난 주 활동 대시보드
+            </h1>
+            <p className="text-blue-600">{auth.profile?.role || "셀원"}</p>
+          </div>
           <p className="text-sm sm:text-base text-gray-600">
             한 주간의 신앙생활을 되돌아봅시다
           </p>

@@ -1,8 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface User {
+  id: string;
+  role: "목사님" | "리더" | "새가족 담당" | "셀원";
+  cell: string;
+  name: string;
+}
+
 interface AuthState {
-  user: any | null;
+  user: User | null;
   profile: any | null;
   accessToken: string | null;
   refreshToken: string | null;
