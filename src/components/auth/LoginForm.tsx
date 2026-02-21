@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, User, Lock, LogIn } from "lucide-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "../../utils/supabaseConfig";
+import { supabase } from "../../lib/supabaseClient";
 import { useAuthStore } from "../../store/useAuthStore";
 import toast from "react-hot-toast";
 
@@ -24,38 +23,25 @@ export function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            apikey: SUPABASE_ANON_KEY,
-          },
-        }
-      );
-      const data = response.data;
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (error) throw error;
 
       const userId = data.user.id;
-      const userResponse = await axios.get(
-        `${SUPABASE_URL}/rest/v1/users?id=eq.${userId}`,
-        {
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${data.access_token}`,
-          },
-        }
-      );
-      const profile = userResponse.data[0];
+      const { data: profileData, error: profileError } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", userId)
+        .single();
+      if (profileError) throw profileError;
 
       setAuth({
         user: data.user,
-        accessToken: data.access_token,
-        refreshToken: data.refresh_token,
-        profile,
+        accessToken: data.session?.access_token || null,
+        refreshToken: data.session?.refresh_token || null,
+        profile: profileData,
       });
 
       toast.success("로그인 성공!", {
@@ -65,15 +51,14 @@ export function LoginForm() {
       });
       navigate("/home/dashboard");
     } catch (error: any) {
-      const errData = error.response?.data;
       toast.error(
-        `로그인 실패: ${errData?.error_description || error.message}`,
+        `로그인 실패: ${error?.message || "알 수 없는 오류"}`,
         {
           duration: 3000,
           position: "bottom-center",
         }
       );
-      console.error("로그인 실패", errData || error.message);
+      console.error("로그인 실패", error);
     }
   };
 

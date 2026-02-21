@@ -53,16 +53,8 @@ export function getLastWeekRange(): { startDate: Date; endDate: Date } {
 }
 
 export function getLastSunday(): string {
-  const today = new Date();
-  const day = today.getDay();
-
-  const thisSunday = new Date(today);
-  thisSunday.setDate(today.getDate() - day);
-
-  const lastSunday = new Date(thisSunday);
-  lastSunday.setDate(thisSunday.getDate() - 7);
-
-  return lastSunday.toISOString().split("T")[0];
+  const { endDate } = getLastWeekRange();
+  return endDate.toISOString().split("T")[0];
 }
 
 export async function fetchLastWeekActivities(

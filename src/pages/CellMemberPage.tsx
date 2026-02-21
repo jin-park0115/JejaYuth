@@ -25,6 +25,15 @@ export default function CellMemberPage() {
         }
 
         const { data, error } = await query;
+        console.log("cellmember query result", { data, error, profile });
+
+        const { data: userData } = await supabase.auth.getUser();
+        console.log("auth user id:", userData?.user?.id);
+        console.log("profile id:", profile?.id);
+
+        const { data: sessionData } = await supabase.auth.getSession();
+        console.log("session:", sessionData?.session);
+
         if (error) throw error;
         setMembers(data || []);
       } catch (error) {
