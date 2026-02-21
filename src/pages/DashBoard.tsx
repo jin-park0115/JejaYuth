@@ -109,10 +109,10 @@ export function DashBoard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6 flex items-center justify-center">
+      <div className="min-h-screen p-6 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-gray-600">데이터를 불러오는 중...</p>
+          <p className="text-white/80">데이터를 불러오는 중...</p>
         </div>
       </div>
     );
@@ -120,12 +120,12 @@ export function DashBoard() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
-          <p className="text-red-600 mb-4">{error}</p>
+      <div className="min-h-screen p-6 flex items-center justify-center">
+        <div className="text-center bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-lg border border-white/20">
+          <p className="text-red-200 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            className="px-4 py-2 bg-white text-purple-600 rounded-lg hover:shadow-lg transition"
           >
             다시 시도
           </button>
@@ -135,17 +135,17 @@ export function DashBoard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-6">
+    <div className="min-h-screen p-6">
       <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
         <div className="mb-4 sm:mb-6 md:mb-8">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1 sm:mb-2">
               {auth.profile.name}님 지난 주 활동 대시보드
             </h1>
-            <p className="text-blue-600">{auth.profile?.role || "셀원"}</p>
+            <p className="text-white/80">{auth.profile?.role || "셀원"}</p>
           </div>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-sm sm:text-base text-white/70">
             한 주간의 신앙생활을 되돌아봅시다
           </p>
         </div>

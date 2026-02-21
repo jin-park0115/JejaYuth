@@ -89,8 +89,8 @@ export function SideNavComponent() {
   return (
     <>
       {/* 데스크톱 사이드바 (1024px 이상) */}
-      <div className="hidden lg:flex h-full bg-white">
-        <div className="flex flex-col gap-[50px] p-[10px]">
+      <div className="hidden lg:flex h-full">
+        <div className="flex flex-col gap-[50px] p-[10px] bg-white/10 backdrop-blur-lg border-r border-white/20 text-white h-full w-full">
           <Link
             to="/home/dashboard"
             className="hover:opacity-80 transition-opacity w-[100px]"
@@ -102,18 +102,21 @@ export function SideNavComponent() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`p-2 rounded-lg transition-colors hover:bg-gray-100 ${
+                className={`p-2 rounded-lg transition-colors hover:bg-white/10 ${
                   location.pathname === item.path
-                    ? "bg-blue-100 text-blue-700 font-semibold"
-                    : "text-gray-700"
+                    ? "bg-white/15 text-white font-semibold"
+                    : "text-white/80"
                 }`}
               >
                 {item.name}
               </Link>
             ))}
           </div>
-          <div className="text-[14px] pl-[10px]">
-            <button onClick={handleLogout} className="cursor-pointer">
+          <div className="text-[14px] pl-[10px] text-white/80">
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer hover:text-white transition-colors"
+            >
               로그아웃
             </button>
           </div>
@@ -121,7 +124,7 @@ export function SideNavComponent() {
       </div>
 
       {/* 모바일 하단 네비게이션 바 (1024px 미만) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/10 backdrop-blur-lg border-t border-white/20 z-50">
         <div className="flex justify-around items-center h-16 px-2">
           {menuItems.slice(0, 5).map((item) => {
             const Icon = item.icon;
@@ -131,7 +134,7 @@ export function SideNavComponent() {
                 key={item.path}
                 to={item.path}
                 className={`flex flex-col items-center justify-center flex-1 h-full gap-1 transition-colors ${
-                  isActive ? "text-blue-600" : "text-gray-600"
+                  isActive ? "text-white" : "text-white/70"
                 }`}
               >
                 <Icon className={`w-5 h-5 ${isActive ? "stroke-[2.5]" : ""}`} />
@@ -143,7 +146,7 @@ export function SideNavComponent() {
           })}
           <button
             onClick={handleLogout}
-            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-gray-600"
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-white/70 hover:text-white transition-colors"
           >
             <LogOut className="w-5 h-5" />
             <span className="text-[10px] font-medium">로그아웃</span>

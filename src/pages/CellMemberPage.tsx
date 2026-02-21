@@ -45,11 +45,11 @@ export default function CellMemberPage() {
     fetchMembers();
   }, [profile]);
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <div className="p-6 text-white/80">로딩 중...</div>;
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">
+      <h1 className="text-2xl font-bold mb-4 text-white">
         {profile.role === "리더" ? `${profile.cell}셀 명단` : "전체명단 조회"}
       </h1>
 
@@ -58,21 +58,21 @@ export default function CellMemberPage() {
           members.map((member) => (
             <div
               key={member.id}
-              className="p-4 bg-white border rounded-xl shadow-sm flex justify-between"
+              className="p-4 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg flex justify-between"
             >
               <div>
-                <span className="font-semibold">{member.name}</span>
-                <span className="ml-2 text-sm text-gray-500">
+                <span className="font-semibold text-white">{member.name}</span>
+                <span className="ml-2 text-sm text-white/70">
                   {member.cell}
                 </span>
               </div>
-              <span className="text-blue-600 text-sm font-medium">
+              <span className="text-white/80 text-sm font-medium">
                 {member.role}
               </span>
             </div>
           ))
         ) : (
-          <p className="text-gray-500">표시할 명단이 없습니다.</p>
+          <p className="text-white/70">표시할 명단이 없습니다.</p>
         )}
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function ActivityCard({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-shadow">
       <div className="flex flex-col items-center">
         <div className="relative w-32 h-32 mb-4">
           <svg className="transform -rotate-90 w-32 h-32">
@@ -25,7 +25,7 @@ export default function ActivityCard({
               cx="64"
               cy="64"
               r="45"
-              stroke="#e5e7eb"
+              stroke="rgba(255,255,255,0.25)"
               strokeWidth="8"
               fill="none"
             />
@@ -43,13 +43,13 @@ export default function ActivityCard({
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-2xl font-bold text-gray-800">{count}</div>
-            <div className="text-xs text-gray-500">/ {goal}일</div>
+            <div className="text-2xl font-bold text-white">{count}</div>
+            <div className="text-xs text-white/70">/ {goal}일</div>
           </div>
         </div>
 
-        <h3 className="text-gray-700 font-semibold text-lg mb-1">{title}</h3>
-        <div className="text-sm text-gray-500">
+        <h3 className="text-white/90 font-semibold text-lg mb-1">{title}</h3>
+        <div className="text-sm text-white/70">
           {percentage.toFixed(0)}% 완료
         </div>
       </div>

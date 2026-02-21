@@ -75,13 +75,13 @@ export function Attendance() {
 
   return (
     <div>
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 max-w-md w-full">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full">
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
               출석 체크
             </h1>
-            <p className="text-gray-500 text-base sm:text-lg">
+            <p className="text-white/70 text-base sm:text-lg">
               {currentSunday}
             </p>
           </div>
@@ -93,7 +93,7 @@ export function Attendance() {
               className={`relative border-2 rounded-lg p-6 sm:p-8 transition-all duration-200 ${
                 selected === "불참"
                   ? "border-red-500 bg-red-500 text-white shadow-lg scale-105"
-                  : "border-gray-300 hover:border-red-400 bg-white text-gray-800"
+                  : "border-white/30 hover:border-red-300 bg-white/10 text-white"
               } ${
                 !isCheckAvailable() || isSubmitting
                   ? "opacity-50 cursor-not-allowed"
@@ -117,7 +117,7 @@ export function Attendance() {
               className={`relative border-2 rounded-lg p-6 sm:p-8 transition-all duration-200 ${
                 selected === "참석"
                   ? "border-blue-500 bg-blue-500 text-white shadow-lg scale-105"
-                  : "border-gray-300 hover:border-blue-400 bg-white text-gray-800"
+                  : "border-white/30 hover:border-blue-300 bg-white/10 text-white"
               } ${
                 !isCheckAvailable() || isSubmitting
                   ? "opacity-50 cursor-not-allowed"
@@ -141,15 +141,15 @@ export function Attendance() {
             disabled={!selected || !isCheckAvailable() || isSubmitting}
             className={`w-full py-3 rounded-lg text-white font-semibold transition-colors ${
               !selected || !isCheckAvailable() || isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+                ? "bg-white/30 cursor-not-allowed"
+                : "bg-white text-purple-600 hover:shadow-lg"
             }`}
           >
             {isSubmitting ? "제출 중..." : "제출"}
           </button>
 
           {!isCheckAvailable() && (
-            <p className="text-center text-sm text-red-500 mt-4">
+            <p className="text-center text-sm text-red-200 mt-4">
               출석 체크는 주일과 월요일에만 가능합니다
             </p>
           )}
