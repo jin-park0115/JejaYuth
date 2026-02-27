@@ -28,6 +28,9 @@ export function Attendance() {
   const handleSubmit = async () => {
     if (!selected) return alert("참석 여부를 선택하세요.");
     if (!isCheckAvailable()) return alert("오늘은 출석 체크가 불가능 합니다.");
+    if (!auth.user || !auth.accessToken) {
+      return alert("로그인이 필요합니다.");
+    }
     setIsSubmitting(true);
 
     try {

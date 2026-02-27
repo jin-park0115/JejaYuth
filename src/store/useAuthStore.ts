@@ -16,8 +16,8 @@ interface AuthState {
   isLoggedIn: boolean;
   setAuth: (data: {
     user: any;
-    accessToken: string;
-    refreshToken: string;
+    accessToken: string | null;
+    refreshToken: string | null;
     profile?: any;
   }) => void;
   clearAuth: () => void;

@@ -28,6 +28,9 @@ export function LoginForm() {
         password: formData.password,
       });
       if (error) throw error;
+      if (!data.user || !data.session) {
+        throw new Error("로그인 정보가 없습니다.");
+      }
 
       const userId = data.user.id;
       const { data: profileData, error: profileError } = await supabase
@@ -38,7 +41,12 @@ export function LoginForm() {
       if (profileError) throw profileError;
 
       setAuth({
-        user: data.user,
+        user: {
+          id: userId,
+          role: profileData.role,
+          cell: profileData.cell,
+          name: profileData.name,
+        },
         accessToken: data.session?.access_token || null,
         refreshToken: data.session?.refresh_token || null,
         profile: profileData,

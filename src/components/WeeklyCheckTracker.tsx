@@ -74,12 +74,13 @@ export default function WeeklyCheckTracker({
     });
     setWeekDays(updatedDays);
 
-    if (auth.user.id) {
+    if (auth.user?.id) {
       loadWeekData(updatedDays);
     }
-  }, [auth.user.id]);
+  }, [auth.user?.id]);
 
   const loadWeekData = async (days: WeekDay[]) => {
+    if (!auth.user?.id) return;
     try {
       const startDate = days[0].date!.toISOString().split("T")[0];
       const endDate = days[6].date!.toISOString().split("T")[0];
@@ -99,6 +100,10 @@ export default function WeeklyCheckTracker({
   };
 
   const toggleDay = async (index: number) => {
+    if (!auth.user?.id) {
+      toast.error("로그인이 필요합니다.");
+      return;
+    }
     const day = weekDays[index];
     const checkDate = day.date!.toISOString().split("T")[0];
     setIsSubmitting(true);
